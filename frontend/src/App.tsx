@@ -50,7 +50,7 @@ export default function App() {
         </button>
 
         <p style={{ color: "white", marginTop: "2rem" }}>
-          Backend health: <b>{health}</b>
+          fini <b>{health}</b>
         </p>
 
         <form onSubmit={addItem} className="form">
