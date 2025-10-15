@@ -214,3 +214,25 @@ body {
     align-items: center;
   }
 }
+.item-list {
+  list-style: none;
+  color: white;
+  margin-top: 1.5rem;
+  padding: 0;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.item-list li {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  transition: 0.3s;
+}
+
+.item-list li:hover {
+  background: rgba(255, 255, 255, 0.2);
+}

@@ -1,37 +1,52 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 
+type Todo = {
+  id: number;
+  title: string;
+  completed: boolean;
+};
+
 export default function App() {
-  const [health, setHealth] = useState<string>("checking...");
-  const [items, setItems] = useState<{ id: number; title: string }[]>([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [title, setTitle] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  async function refresh() {
-    const h = await fetch("/api/health")
-      .then((r) => r.json())
-      .catch(() => ({ status: "fail" }));
-    setHealth(h.status ?? "fail");
-
-    const it = await fetch("/api/items")
-      .then((r) => r.json())
-      .catch(() => ({ items: [] }));
-    setItems(it.items || []);
+  // 🔹 Lấy danh sách todo từ backend
+  async function fetchTodos() {
+    setLoading(true);
+    const res = await fetch("/api/todos").then((r) => r.json()).catch(() => ({ todos: [] }));
+    setTodos(res.todos || []);
+    setLoading(false);
   }
 
-  async function addItem(e: React.FormEvent) {
+  // 🔹 Thêm todo mới
+  async function addTodo(e: React.FormEvent) {
     e.preventDefault();
     if (!title.trim()) return;
-    await fetch("/api/items", {
+    await fetch("/api/todos", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title }),
     });
     setTitle("");
-    refresh();
+    fetchTodos();
+  }
+
+  // 🔹 Xoá todo
+  async function deleteTodo(id: number) {
+    await fetch(`/api/todos/${id}`, { method: "DELETE" });
+    fetchTodos();
+  }
+
+  // 🔹 Đổi trạng thái hoàn thành
+  async function toggleTodo(id: number) {
+    await fetch(`/api/todos/${id}/toggle`, { method: "PATCH" });
+    fetchTodos();
   }
 
   useEffect(() => {
-    refresh();
+    fetchTodos();
   }, []);
 
   return (
@@ -43,33 +58,61 @@ export default function App() {
       </div>
 
       <div className="container">
-        <h1 className="hero-title">Welcome to the Future</h1>
-        <p className="hero-subtitle">Trải nghiệm web hiện đại và đẳng cấp</p>
-        <button className="cta-button" onClick={() => alert("Chào mừng bạn! 🎉")}>
-          Bắt Đầu Ngay
-        </button>
+        <h1 className="hero-title">To-Do List 🚀</h1>
+        <p className="hero-subtitle">Quản lý công việc hằng ngày của bạn</p>
 
-        {/* <p style={{ color: "white", marginTop: "2rem" }}>
-          fini <b>{health}</b>
-        </p> */}
-
-        <form onSubmit={addItem} className="form">
+        {/* Form thêm */}
+        <form onSubmit={addTodo} className="form">
           <input
-            placeholder="Nhập tiêu đề mới..."
+            placeholder="Nhập việc cần làm..."
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
           <button type="submit">Thêm</button>
         </form>
 
+        {/* Danh sách todo */}
         <ul className="item-list">
-          {items.map((i) => (
-            <li key={i.id}>
-              #{i.id}: {i.title}
+          {loading && <li>Đang tải...</li>}
+          {!loading && todos.length === 0 && <li>Chưa có công việc nào 🎉</li>}
+          {todos.map((t) => (
+            <li
+              key={t.id}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 8,
+              }}
+            >
+              <span
+                style={{
+                  textDecoration: t.completed ? "line-through" : "none",
+                  color: t.completed ? "#ccc" : "white",
+                  cursor: "pointer",
+                }}
+                onClick={() => toggleTodo(t.id)}
+              >
+                {t.title}
+              </span>
+              <button
+                onClick={() => deleteTodo(t.id)}
+                style={{
+                  background: "rgba(255,255,255,0.2)",
+                  border: "none",
+                  color: "white",
+                  padding: "4px 10px",
+                  borderRadius: 6,
+                  cursor: "pointer",
+                }}
+              >
+                ✕
+              </button>
             </li>
           ))}
         </ul>
 
+        {/* Giữ lại phần hiệu ứng đẹp */}
         <div className="features">
           <div className="feature-card">
             <div className="feature-icon">⚡</div>
