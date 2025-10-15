@@ -49,9 +49,9 @@ export default function App() {
           Bắt Đầu Ngay
         </button>
 
-        <p style={{ color: "white", marginTop: "2rem" }}>
+        {/* <p style={{ color: "white", marginTop: "2rem" }}>
           fini <b>{health}</b>
-        </p>
+        </p> */}
 
         <form onSubmit={addItem} className="form">
           <input
