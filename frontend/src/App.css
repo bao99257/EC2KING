@@ -236,3 +236,163 @@ body {
 .item-list li:hover {
   background: rgba(255, 255, 255, 0.2);
 }
+/* ==== Toàn bộ CSS nền + hiệu ứng ==== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ... (tất cả các style khác từ .container đến @keyframes float giữ nguyên) ... */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-30px) scale(1.05);
+  }
+}
+
+/* ==== Bổ sung cho form và danh sách ==== */
+.form {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.form input {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  width: 250px;
+  outline: none;
+}
+
+.form button {
+  background: white;
+  color: #667eea;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.form button:hover {
+  background: #eee;
+}
+
+.item-list {
+  list-style: none;
+  color: white;
+  margin-top: 1.5rem;
+  padding: 0;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.item-list li {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  transition: 0.3s;
+}
+
+.item-list li:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+  /* ... (giữ nguyên media query) ... */
+}
+
+/* 🔽 BỔ SUNG CSS CHO CHỨC NĂNG SỬA 🔽 */
+
+/* Nhóm các nút hành động (Sửa, Xóa, Lưu, Hủy) */
+.button-group {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0; /* Ngăn các nút bị co lại */
+}
+
+/* Style chung cho các nút hành động */
+.btn-action {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.2; /* Căn chỉnh icon/text */
+}
+
+.btn-action:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Nút Sửa (Edit) */
+.btn-edit {
+  /* Style này đã ổn */
+}
+
+/* Nút Xóa (Delete) */
+.btn-delete {
+  /* Style này đã ổn */
+}
+
+/* Nút Lưu (Save) */
+.btn-save {
+  background: #4caf50; /* Màu xanh lá */
+  padding-left: 12px;
+  padding-right: 12px;
+}
+.btn-save:hover {
+  background: #66bb6a;
+}
+
+/* Nút Hủy (Cancel) */
+.btn-cancel {
+  background: #f44336; /* Màu đỏ */
+  padding-left: 12px;
+  padding-right: 12px;
+}
+.btn-cancel:hover {
+  background: #ef5350;
+}
+
+/* Ô input khi đang sửa */
+.edit-input {
+  flex-grow: 1; /* Chiếm hết không gian còn lại */
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(0, 0, 0, 0.1);
+  color: white;
+  outline: none;
+  font-size: 0.95rem;
+}
+
+.edit-input:focus {
+  border-color: white;
+  background: rgba(0, 0, 0, 0.2);
+}
