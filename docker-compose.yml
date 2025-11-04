@@ -1,9 +1,12 @@
 version: "3.9"
+
 services:
   db:
     image: postgres:15-alpine
     container_name: postgres-db
     restart: always
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: vtat2011
@@ -22,7 +25,7 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgresql://admin:vtat2011@db:5432/fastapi_db
+      DATABASE_URL: postgresql://admin:vtat2011@postgres-db:5432/fastapi_db
     networks:
       - app_net
 
