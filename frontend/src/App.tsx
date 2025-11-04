@@ -21,7 +21,7 @@ export default function App() {
   // 🔹 Lấy danh sách todo từ backend
   async function fetchTodos() {
     setLoading(true);
-    const res = await fetch("http://54.221.13.254:8000/api/todos")
+    const res = await fetch("/api/todos")
       .then((r) => r.json())
       .catch(() => ({ todos: [] }));
     setTodos(res.todos || []);
@@ -32,7 +32,7 @@ export default function App() {
   async function addTodo(e: React.FormEvent) {
     e.preventDefault();
     if (!title.trim()) return;
-    await fetch("http://54.221.13.254:8000/api/todos", {
+    await fetch("/api/todos", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title }),
@@ -47,7 +47,7 @@ export default function App() {
       setEditingState(null);
       return;
     }
-    await fetch(`http://54.221.13.254:8000/api/todos/${id}`, {
+    await fetch(`/api/todos/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title: newTitle }),
@@ -58,14 +58,14 @@ export default function App() {
 
   // 🔹 Xoá todo
   async function deleteTodo(id: number) {
-    await fetch(`http://54.221.13.254:8000/api/todos/${id}`, { method: "DELETE" });
+    await fetch(`/api/todos/${id}`, { method: "DELETE" });
     fetchTodos();
   }
 
   // 🔹 Đổi trạng thái hoàn thành
   async function toggleTodo(id: number) {
     if (editingState && editingState.id === id) return;
-    await fetch(`http://54.221.13.254:8000/api/todos/${id}/toggle`, { method: "PATCH" });
+    await fetch(`/api/todos/${id}/toggle`, { method: "PATCH" });
     fetchTodos();
   }
 
