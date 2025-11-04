@@ -12,7 +12,7 @@ export default function App() {
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // 🔽 STATE MỚI: Theo dõi todo đang được chỉnh sửa
+  // STATE: Theo dõi todo đang được chỉnh sửa
   const [editingState, setEditingState] = useState<{
     id: number;
     title: string;
@@ -41,10 +41,9 @@ export default function App() {
     fetchTodos();
   }
 
-  // 🔽 HÀM MỚI: Cập nhật (Sửa) todo
+  // 🔹 Cập nhật (Sửa) todo
   async function updateTodo(id: number, newTitle: string) {
     if (!newTitle.trim()) {
-      // Nếu tiêu đề mới rỗng, hủy bỏ việc sửa
       setEditingState(null);
       return;
     }
@@ -65,7 +64,6 @@ export default function App() {
 
   // 🔹 Đổi trạng thái hoàn thành
   async function toggleTodo(id: number) {
-    // Không cho phép toggle khi đang sửa
     if (editingState && editingState.id === id) return;
     await fetch(`/api/todos/${id}/toggle`, { method: "PATCH" });
     fetchTodos();
@@ -125,7 +123,6 @@ export default function App() {
                 gap: 8,
               }}
             >
-              {/* 🔽 LOGIC RENDER MỚI: Hiển thị ô input hoặc text */}
               {editingState && editingState.id === t.id ? (
                 // --- Chế độ SỬA ---
                 <>
@@ -133,7 +130,7 @@ export default function App() {
                     type="text"
                     value={editingState.title}
                     onChange={handleEditChange}
-                    onKeyDown={(e) => e.key === "Enter" && handleSave()} // Cho phép nhấn Enter để lưu
+                    onKeyDown={(e) => e.key === "Enter" && handleSave()}
                     autoFocus
                     className="edit-input"
                   />
@@ -160,7 +157,6 @@ export default function App() {
                       textDecoration: t.completed ? "line-through" : "none",
                       color: t.completed ? "#ccc" : "white",
                       cursor: "pointer",
-                      // 🔽 Thêm style để tiêu đề không bị tràn
                       wordBreak: "break-all",
                       flexGrow: 1,
                       textAlign: "left",
@@ -170,7 +166,6 @@ export default function App() {
                     {t.title}
                   </span>
                   <div className="button-group">
-                    {/* Nút Sửa */}
                     <button
                       onClick={() =>
                         setEditingState({ id: t.id, title: t.title })
@@ -179,7 +174,6 @@ export default function App() {
                     >
                       ✏️
                     </button>
-                    {/* Nút Xóa (đã bỏ inline style và dùng class) */}
                     <button
                       onClick={() => deleteTodo(t.id)}
                       className="btn-action btn-delete"
@@ -193,8 +187,32 @@ export default function App() {
           ))}
         </ul>
 
-        {/* Giữ lại phần hiệu ứng đẹp */}
-        <div className="features">{/* ... (không thay đổi) ... */}</div>
+        {/* Phần hiệu ứng đẹp */}
+        <div className="features">
+          <div className="feature-card">
+            <div className="feature-icon">⚡</div>
+            <h3 className="feature-title">Nhanh Chóng</h3>
+            <p className="feature-text">
+              Hiệu suất tối ưu cho trải nghiệm mượt mà
+            </p>
+          </div>
+
+          <div className="feature-card">
+            <div className="feature-icon">🎨</div>
+            <h3 className="feature-title">Thiết Kế Đẹp</h3>
+            <p className="feature-text">
+              Giao diện hiện đại và thu hút người dùng
+            </p>
+          </div>
+
+          <div className="feature-card">
+            <div className="feature-icon">🚀</div>
+            <h3 className="feature-title">Đổi Mới</h3>
+            <p className="feature-text">
+              Công nghệ tiên tiến và sáng tạo
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

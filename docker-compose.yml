@@ -1,0 +1,44 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: postgres-db
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: vtat2011
+      POSTGRES_DB: fastapi_db
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - app_net
+
+  backend:
+    image: leanhbao/backend:latest
+    container_name: fastapi-backend
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://admin:vtat2011@db:5432/fastapi_db
+    networks:
+      - app_net
+
+  frontend:
+    image: leanhbao/frontend:latest
+    container_name: react-frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - app_net
+
+volumes:
+  db_data:
+
+networks:
+  app_net:
