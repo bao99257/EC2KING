@@ -2,7 +2,7 @@ import os
 from sqlalchemy import create_engine, text
 
 # ====== Cấu hình Database ======
-DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_HOST = os.getenv("DB_HOST", "postgres-db")
 DB_PORT = os.getenv("DB_PORT", "5432")
 DB_USERNAME = os.getenv("DB_USERNAME", "postgres")
 DB_PASSWORD = os.getenv("DB_PASSWORD", "matkhau")
